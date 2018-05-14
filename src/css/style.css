@@ -41,5 +41,49 @@ body {
   font-family: "Lato", sans-serif;
   font-size: 16px; }
 
+.page {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  min-height: 100vh; }
+
+.main {
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  padding: 0 20px; }
+
 /* COMPONENTS */
 /* BLOCKS*/
+.button {
+  display: block; }
+
+.form__label {
+  display: block; }
+
+.form__group {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin: 0 0 25px; }
+
+.form__hint {
+  margin: 0 0 10px; }
+
+.form__input {
+  display: block;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  margin: 0 0 25px;
+  width: 100%; }
+
+.form__radio {
+  display: block;
+  margin: 0 auto; }
+
+.form__radio-name:first-child {
+  margin-right: 20px; }

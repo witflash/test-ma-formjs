@@ -1,0 +1,49 @@
+<section class="main">
+
+  <form action="/" class="form">
+
+    <label class="form__label">
+      <p class="form__hint">First Name:</p>
+      <input type="text" class="form__input" name="first-name">
+    </label>
+
+    <label class="form__label">
+      <p class="form__hint">Last Name:</p>
+      <input type="text" class="form__input" name="last-name">
+    </label>
+
+    <label class="form__label">
+      <p class="form__hint">Birthday:</p>
+      <input type="date" class="form__input" name="birthday">
+    </label>
+
+    <p class="form__hint">Sex:</p>
+    <div class="form__group">
+      <label class="form__label">
+        <span class="form__radio-name">Male</span>
+        <input type="radio" class="form__radio" name="sex" value="male">
+      </label>
+      <label class="form__label">
+        <span class="form__radio-name">Female</span>
+        <input type="radio" class="form__radio" name="sex" value="female">
+      </label>
+    </div>
+
+    <label class="form__label">
+      <p class="form__hint">Country:</p>
+      <select name="country" class="form__select">
+        <option selected="selected" value="">Select please</option>
+        {% include 'components/_countries.html' %}
+      </select>
+    </label>
+
+    <label class="form__label">
+      <p class="form__hint">Email:</p>
+      <input type="email" class="form__input" name="email">
+    </label>
+
+    <button type="submit" class="button form__button">Submit</button>
+
+  </form>
+
+</section>

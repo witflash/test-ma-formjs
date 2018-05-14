@@ -3,3 +3,9 @@ body {
   font-family: $fface-primary;
   font-size: $fsize-root;
 }
+
+.page {
+  display: flex;
+  flex-flow: column nowrap;
+  min-height: 100vh;
+}
