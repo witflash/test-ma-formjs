@@ -1,7 +1,11 @@
+html {
+  font-size: $fsize-root;
+}
+
 body {
   margin: 0;
   font-family: $fface-primary;
-  font-size: $fsize-root;
+  background: linear-gradient(to right bottom, $color-secondary, lighten($color-secondary, 30)); 
 }
 
 .page {

@@ -2,28 +2,31 @@
 $fface-primary: 'Lato', sans-serif;
 $fface-secondary: 'Open Sans', sans-serif;
 
-$fsize-root:     16px; // ROOT FONT SIZE
-$fsize-main:     1rem;
-$fsize-title:    2.5rem;
-$fsize-subtitle: 1.5rem;
-$fsize-small:    0.75rem;
-$fsize-xsmall:   0.5rem;
+$fsize-root:     14px; // ROOT FONT SIZE
+$fsize-main:     16px;
+$fsize-title:    30px;
+$fsize-subtitle: 24px;
+$fsize-small:    14px;
+$fsize-xsmall:   12px;
 
 /* COLOR VARIABLES */
-$color-text-main:       #3b3b3b;
-$color-text-secondary:  #ffffff;
-$color-text-form:       #9d9d9c;
-$color-primary:         #3f82f0;
-$color-secondary:       #0099df;
-$color-accent: 		    	#124fb3;
-$color-footer:          #182a53;
-$color-alarm:           #e60000;
+$color-text-main:       rgb(59, 59, 59);
+$color-text-secondary:  rgb(255, 255, 255);
+$color-form:     			  rgb(255, 255, 255);
+$color-form-border:     rgb(211, 211, 211);
+$color-primary:         rgb(63, 130, 240);
+$color-secondary:       rgb(0, 153, 223);
+$color-accent: 		    	rgb(18, 79, 179);
+$color-footer:          rgb(24, 42, 83);
+$color-success: 				rgb(0, 129, 0);
+$color-alarm:           rgb(230, 0, 0);
 
 /* TRANSITIONS AND ANIMATIONS */
 $delay-global: 300ms;
 
 /* BREAKPOINTS */
-$phablet-width: '578px';
-$tablet-width: '768px';
-$laptop-width: '1024px';
-$desktop-width: '1200px';
+$mobile-width: 480px;
+$phablet-width: 578px;
+$tablet-width: 768px;
+$laptop-width: 1024px;
+$desktop-width: 1200px;

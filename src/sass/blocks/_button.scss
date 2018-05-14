@@ -1,3 +1,26 @@
 .button {
   display: block;
+  padding: 10px 25px;
+  cursor: pointer;
+  background-color: $color-primary;
+  border: none;
+  border-radius: 5px;
+  font-size: $fsize-main;
+  font-weight: bold;
+  color: $color-text-secondary;
+  transition-duration: $delay-global;
+
+  &:hover {
+    background-color: $color-accent;
+  }
+
+  &:focus {
+    outline: none;
+    border: 1ps solid $color-secondary;
+    background-color: $color-accent;
+  }
+
+  &:active {
+    background-color: darken($color-accent, 10);
+  }
 }

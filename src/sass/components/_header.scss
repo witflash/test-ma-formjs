@@ -1,2 +1,11 @@
 .header {
+	padding: 20px 10px;
+	background-color: $color-footer;
+
+	&__title {
+		margin: 0;
+		text-align: center;
+		font-size: $fsize-title;
+		color: $color-text-secondary;
+	}
 }

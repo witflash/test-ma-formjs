@@ -1,4 +1,14 @@
 .footer {
-  // flex-grow: 1;
-  // align-self: flex-end;
+  padding: 6px 10px;
+  background-color: $color-accent;
+  color: $color-text-secondary;
+  @include phablet {
+    width: 180px;
+    border-top-right-radius: 10px;
+  }
+
+  &__copyright {
+    margin: 0;
+    font-size: $fsize-xsmall;
+  }
 }
