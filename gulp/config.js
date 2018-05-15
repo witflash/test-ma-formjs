@@ -7,6 +7,7 @@ const config = {
     css: 'src/css',
     html: 'src/html',
     js: 'src/js',
+    jsEntry: 'src/js/modules/main.js',
     img: 'src/img',
   },
   dest: {
