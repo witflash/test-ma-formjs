@@ -8,6 +8,8 @@ const rules = {
   messages: {},
   except: {},
   match: {},
+  dates: {},
+  minlength: {},
   defaultMessage: 'This field is required',
   formGroupClass: 'form__group',
   errorClass: 'has-error',
@@ -46,16 +48,48 @@ function addSuccess(input) {
   input.classList.add(rules.successClass);
 }
 
-function checkRadio(radios) {
-  console.log('radios: ', radios);
-  if (!rules.required[radios[0].name]) {
+function checkInput(input) {
+  if (rules.required[input.name] && !input.value) {
+    const message = rules.messages[input.name];
+    addError(input, message);
     return;
   }
+  if (rules.minlength[input.name]) {
+    const minlength = rules.minlength[input.name][0];
+    const message = rules.minlength[input.name][1];
+    if (input.value.length < minlength) {
+      addError(input, message);
+      return;
+    }
+  }
+  if (rules.except[input.name]) {
+    const regex = rules.except[input.name][0];
+    const message = rules.except[input.name][1];
+    if (input.value.search(regex) !== -1) {
+      addError(input, message);
+      return;
+    }
+  }
+  if (rules.match[input.name]) {
+    const regex = rules.match[input.name][0];
+    const message = rules.match[input.name][1];
+    if (!input.value.match(regex)) {
+      addError(input, message);
+      return;
+    }
+  }
+  addSuccess(input);
+}
 
-  const formGroup = radios[0].closest(`.${rules.formGroupClass}`);
+function checkRadio(radio) {
+  console.log('radio: ', radio);
+  if (!rules.required[radio[0].name]) {
+    return;
+  }
+  const formGroup = radio[0].closest(`.${rules.formGroupClass}`);
   console.log('formGroup: ', formGroup);
-  for (let i = 0; i < radios.length; i += 1) {
-    if (radios[i].checked) {
+  for (let i = 0; i < radio.length; i += 1) {
+    if (radio[i].checked) {
       removeError(formGroup);
       return;
     }
@@ -63,30 +97,24 @@ function checkRadio(radios) {
   addError(formGroup);
 }
 
-function checkInput(input) {
-  console.log('input: ', input);
-  if (rules.except[input.name]) {
-    const regexp = rules.except[input.name][0];
-    const message = rules.except[input.name][1];
-    if (input.value.search(regexp) !== -1) {
-      addError(input, message);
+function checkDate(date) {
+  const userDate = Date.parse(date.value);
+  console.log('userDate: ', userDate);
+  if (rules.required[date.name] && !date.value) {
+    const message = rules.messages[date.name];
+    addError(date, message);
+    return;
+  }
+  if (rules.dates[date.name]) {
+    const todayDate = new Date();
+    const dateState = rules.dates[date.name][0];
+    const message = rules.dates[date.name][1];
+    if (dateState === 'past' && todayDate < userDate) {
+      addError(date, message);
       return;
     }
   }
-  if (rules.match[input.name]) {
-    const regexp = rules.match[input.name][0];
-    const message = rules.match[input.name][1];
-    if (!input.value.match(regexp)) {
-      addError(input, message);
-      return;
-    }
-  }
-  if (rules.required[input.name] && !input.value) {
-    const message = rules.messages[input.name];
-    addError(input, message);
-  } else {
-    addSuccess(input);
-  }
+  addSuccess(date);
 }
 
 function checkAll(form) {
@@ -95,6 +123,8 @@ function checkAll(form) {
     const formField = form[names[i]];
     if (formField.length > 1 && formField[0].type === 'radio') {
       checkRadio(formField);
+    } else if (formField.type === 'date') {
+      checkDate(formField);
     } else {
       checkInput(formField);
     }
@@ -112,13 +142,14 @@ function getNames(form) {
         e.preventDefault();
         if (e.target.type === 'radio') {
           checkRadio(form[input.name]);
+        } else if (e.target.type === 'date') {
+          checkDate(e.target);
         } else {
           checkInput(e.target);
         }
       });
     }
   }
-
   names = [...nameSet];
 }
 

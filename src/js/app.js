@@ -15,6 +15,8 @@ var rules = {
   messages: {},
   except: {},
   match: {},
+  dates: {},
+  minlength: {},
   defaultMessage: 'This field is required',
   formGroupClass: 'form__group',
   errorClass: 'has-error',
@@ -53,16 +55,48 @@ function addSuccess(input) {
   input.classList.add(rules.successClass);
 }
 
-function checkRadio(radios) {
-  console.log('radios: ', radios);
-  if (!rules.required[radios[0].name]) {
+function checkInput(input) {
+  if (rules.required[input.name] && !input.value) {
+    var message = rules.messages[input.name];
+    addError(input, message);
     return;
   }
+  if (rules.minlength[input.name]) {
+    var minlength = rules.minlength[input.name][0];
+    var _message = rules.minlength[input.name][1];
+    if (input.value.length < minlength) {
+      addError(input, _message);
+      return;
+    }
+  }
+  if (rules.except[input.name]) {
+    var regex = rules.except[input.name][0];
+    var _message2 = rules.except[input.name][1];
+    if (input.value.search(regex) !== -1) {
+      addError(input, _message2);
+      return;
+    }
+  }
+  if (rules.match[input.name]) {
+    var _regex = rules.match[input.name][0];
+    var _message3 = rules.match[input.name][1];
+    if (!input.value.match(_regex)) {
+      addError(input, _message3);
+      return;
+    }
+  }
+  addSuccess(input);
+}
 
-  var formGroup = radios[0].closest('.' + rules.formGroupClass);
+function checkRadio(radio) {
+  console.log('radio: ', radio);
+  if (!rules.required[radio[0].name]) {
+    return;
+  }
+  var formGroup = radio[0].closest('.' + rules.formGroupClass);
   console.log('formGroup: ', formGroup);
-  for (var i = 0; i < radios.length; i += 1) {
-    if (radios[i].checked) {
+  for (var i = 0; i < radio.length; i += 1) {
+    if (radio[i].checked) {
       removeError(formGroup);
       return;
     }
@@ -70,30 +104,24 @@ function checkRadio(radios) {
   addError(formGroup);
 }
 
-function checkInput(input) {
-  console.log('input: ', input);
-  if (rules.except[input.name]) {
-    var regexp = rules.except[input.name][0];
-    var message = rules.except[input.name][1];
-    if (input.value.search(regexp) !== -1) {
-      addError(input, message);
+function checkDate(date) {
+  var userDate = Date.parse(date.value);
+  console.log('userDate: ', userDate);
+  if (rules.required[date.name] && !date.value) {
+    var message = rules.messages[date.name];
+    addError(date, message);
+    return;
+  }
+  if (rules.dates[date.name]) {
+    var todayDate = new Date();
+    var dateState = rules.dates[date.name][0];
+    var _message4 = rules.dates[date.name][1];
+    if (dateState === 'past' && todayDate < userDate) {
+      addError(date, _message4);
       return;
     }
   }
-  if (rules.match[input.name]) {
-    var _regexp = rules.match[input.name][0];
-    var _message = rules.match[input.name][1];
-    if (!input.value.match(_regexp)) {
-      addError(input, _message);
-      return;
-    }
-  }
-  if (rules.required[input.name] && !input.value) {
-    var _message2 = rules.messages[input.name];
-    addError(input, _message2);
-  } else {
-    addSuccess(input);
-  }
+  addSuccess(date);
 }
 
 function checkAll(form) {
@@ -102,6 +130,8 @@ function checkAll(form) {
     var formField = form[names[i]];
     if (formField.length > 1 && formField[0].type === 'radio') {
       checkRadio(formField);
+    } else if (formField.type === 'date') {
+      checkDate(formField);
     } else {
       checkInput(formField);
     }
@@ -119,6 +149,8 @@ function getNames(form) {
         e.preventDefault();
         if (e.target.type === 'radio') {
           checkRadio(form[input.name]);
+        } else if (e.target.type === 'date') {
+          checkDate(e.target);
         } else {
           checkInput(e.target);
         }
@@ -129,7 +161,6 @@ function getNames(form) {
   for (var i = 0; i < form.length; i += 1) {
     _loop(i);
   }
-
   names = [].concat(_toConsumableArray(nameSet));
 }
 
@@ -175,14 +206,28 @@ var rules = {
     lastName: true,
     birthday: true,
     sex: true,
-    country: true
+    country: true,
+    email: true,
+    password: true,
+    address: true
   },
   messages: {
-    firstName: 'Please enter your First Name'
+    firstName: 'Please enter your first name',
+    lastName: 'Please enter your last name',
+    email: 'Please enter your email'
   },
   except: {
     firstName: [/["']/, 'This field must not contain any quotes'],
     lastName: [/["']/, 'This field must not contain any quotes']
+  },
+  match: {
+    email: [/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, 'Email address is incorrect']
+  },
+  dates: {
+    birthday: ['past', 'The date must be less than today date']
+  },
+  minlength: {
+    password: [6, 'Password must be at least 6 characters']
   },
   errorClass: 'alert',
   successClass: 'success'
