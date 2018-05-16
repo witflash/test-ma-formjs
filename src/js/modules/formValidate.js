@@ -6,6 +6,8 @@
 const rules = {
   required: {},
   messages: {},
+  except: {},
+  match: {},
   defaultMessage: 'This field is required',
   formGroupClass: 'form__group',
   errorClass: 'has-error',
@@ -17,6 +19,7 @@ const divErr = document.createElement('div');
 divErr.classList.add(rules.messageClass);
 
 let names = [];
+let isValid;
 
 function removeError(input) {
   const error = input.parentNode.querySelector(`.${rules.messageClass}`);
@@ -26,10 +29,11 @@ function removeError(input) {
   input.classList.remove(rules.errorClass);
 }
 
-function addError(input) {
+function addError(input, message) {
   const error = divErr.cloneNode(true);
 
-  error.innerHTML = rules.defaultMessage;
+  isValid = false;
+  error.innerHTML = message || rules.defaultMessage;
   removeError(input);
   input.parentNode.insertBefore(error, input.nexSibling);
   input.classList.remove(rules.successClass);
@@ -61,14 +65,32 @@ function checkRadio(radios) {
 
 function checkInput(input) {
   console.log('input: ', input);
+  if (rules.except[input.name]) {
+    const regexp = rules.except[input.name][0];
+    const message = rules.except[input.name][1];
+    if (input.value.search(regexp) !== -1) {
+      addError(input, message);
+      return;
+    }
+  }
+  if (rules.match[input.name]) {
+    const regexp = rules.match[input.name][0];
+    const message = rules.match[input.name][1];
+    if (!input.value.match(regexp)) {
+      addError(input, message);
+      return;
+    }
+  }
   if (rules.required[input.name] && !input.value) {
-    addError(input);
+    const message = rules.messages[input.name];
+    addError(input, message);
   } else {
     addSuccess(input);
   }
 }
 
 function checkAll(form) {
+  isValid = true;
   for (let i = 0; i < names.length; i += 1) {
     const formField = form[names[i]];
     if (formField.length > 1 && formField[0].type === 'radio') {
@@ -113,6 +135,10 @@ function formValidate(form, ...args) {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     checkAll(form);
+    if (isValid) {
+      alert('Submit OK!');
+      // form.submit();
+    }
   });
   console.log(rules);
   console.log(names);

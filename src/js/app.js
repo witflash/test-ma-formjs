@@ -13,6 +13,8 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 var rules = {
   required: {},
   messages: {},
+  except: {},
+  match: {},
   defaultMessage: 'This field is required',
   formGroupClass: 'form__group',
   errorClass: 'has-error',
@@ -24,6 +26,7 @@ var divErr = document.createElement('div');
 divErr.classList.add(rules.messageClass);
 
 var names = [];
+var isValid = void 0;
 
 function removeError(input) {
   var error = input.parentNode.querySelector('.' + rules.messageClass);
@@ -33,10 +36,11 @@ function removeError(input) {
   input.classList.remove(rules.errorClass);
 }
 
-function addError(input) {
+function addError(input, message) {
   var error = divErr.cloneNode(true);
 
-  error.innerHTML = rules.defaultMessage;
+  isValid = false;
+  error.innerHTML = message || rules.defaultMessage;
   removeError(input);
   input.parentNode.insertBefore(error, input.nexSibling);
   input.classList.remove(rules.successClass);
@@ -68,14 +72,32 @@ function checkRadio(radios) {
 
 function checkInput(input) {
   console.log('input: ', input);
+  if (rules.except[input.name]) {
+    var regexp = rules.except[input.name][0];
+    var message = rules.except[input.name][1];
+    if (input.value.search(regexp) !== -1) {
+      addError(input, message);
+      return;
+    }
+  }
+  if (rules.match[input.name]) {
+    var _regexp = rules.match[input.name][0];
+    var _message = rules.match[input.name][1];
+    if (!input.value.match(_regexp)) {
+      addError(input, _message);
+      return;
+    }
+  }
   if (rules.required[input.name] && !input.value) {
-    addError(input);
+    var _message2 = rules.messages[input.name];
+    addError(input, _message2);
   } else {
     addSuccess(input);
   }
 }
 
 function checkAll(form) {
+  isValid = true;
   for (var i = 0; i < names.length; i += 1) {
     var formField = form[names[i]];
     if (formField.length > 1 && formField[0].type === 'radio') {
@@ -124,6 +146,10 @@ function formValidate(form) {
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     checkAll(form);
+    if (isValid) {
+      alert('Submit OK!');
+      // form.submit();
+    }
   });
   console.log(rules);
   console.log(names);
@@ -150,6 +176,13 @@ var rules = {
     birthday: true,
     sex: true,
     country: true
+  },
+  messages: {
+    firstName: 'Please enter your First Name'
+  },
+  except: {
+    firstName: [/["']/, 'This field must not contain any quotes'],
+    lastName: [/["']/, 'This field must not contain any quotes']
   },
   errorClass: 'alert',
   successClass: 'success'

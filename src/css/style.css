@@ -70,6 +70,7 @@ body {
   .header__title {
     margin: 0;
     text-align: center;
+    font-family: "Open Sans", sans-serif;
     font-size: 30px;
     color: white; }
 
@@ -143,7 +144,9 @@ body {
     .form__input:focus, .form__select:focus, .form__area:focus {
       background-color: white;
       outline: none;
-      border: 1px solid #0099df; }
+      border: 1px solid #0099df;
+      -webkit-box-shadow: 0 0 4px 0 rgba(70, 70, 70, 0.6);
+              box-shadow: 0 0 4px 0 rgba(70, 70, 70, 0.6); }
   .form__area {
     overflow: auto; }
   .form__radio {
@@ -159,14 +162,10 @@ body {
         width: 200px; } }
   .form .alert {
     border: 1px solid #e60000; }
-    .form .alert:focus {
-      border: 1px solid #0099df; }
   .form .success {
     background-color: white;
     border: 1px solid #008100;
     border-radius: 5px; }
-    .form .success:focus {
-      border: 1px solid #0099df; }
   .form .validate-error {
     font-size: 12px;
     color: #e60000; }

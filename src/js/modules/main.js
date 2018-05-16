@@ -14,6 +14,13 @@ const rules = {
     sex: true,
     country: true,
   },
+  messages: {
+    firstName: 'Please enter your First Name',
+  },
+  except: {
+    firstName: [/["']/, 'This field must not contain any quotes'],
+    lastName: [/["']/, 'This field must not contain any quotes'],
+  },
   errorClass: 'alert',
   successClass: 'success',
 };
