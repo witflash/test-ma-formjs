@@ -121,7 +121,7 @@ body {
     display: block;
     margin-bottom: 20px; }
   .form__group {
-    margin-bottom: 20px; }
+    border-radius: 5px; }
   .form__element {
     display: block;
     margin-bottom: 5px; }
@@ -159,13 +159,17 @@ body {
         width: 200px; } }
   .form .alert {
     border: 1px solid #e60000; }
+    .form .alert:focus {
+      border: 1px solid #0099df; }
   .form .success {
     background-color: white;
     border: 1px solid #008100;
     border-radius: 5px; }
     .form .success:focus {
-      border: 1px solid #0099df;
-      background-color: #124fb3; }
+      border: 1px solid #0099df; }
+  .form .validate-error {
+    font-size: 12px;
+    color: #e60000; }
 
 .modal {
   position: absolute; }
