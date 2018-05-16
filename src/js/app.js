@@ -10,6 +10,9 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   Author: Andrew Mambyk
   Start Date: 14.05/18
  */
+
+var modalPopup = require('./modalPopup');
+
 var rules = {
   required: {},
   messages: {},
@@ -21,7 +24,8 @@ var rules = {
   formGroupClass: 'form__group',
   errorClass: 'has-error',
   successClass: 'has-success',
-  messageClass: 'validate-error'
+  messageClass: 'validate-error',
+  modalPopup: []
 };
 
 var divErr = document.createElement('div');
@@ -89,12 +93,10 @@ function checkInput(input) {
 }
 
 function checkRadio(radio) {
-  console.log('radio: ', radio);
   if (!rules.required[radio[0].name]) {
     return;
   }
   var formGroup = radio[0].closest('.' + rules.formGroupClass);
-  console.log('formGroup: ', formGroup);
   for (var i = 0; i < radio.length; i += 1) {
     if (radio[i].checked) {
       removeError(formGroup);
@@ -106,7 +108,6 @@ function checkRadio(radio) {
 
 function checkDate(date) {
   var userDate = Date.parse(date.value);
-  console.log('userDate: ', userDate);
   if (rules.required[date.name] && !date.value) {
     var message = rules.messages[date.name];
     addError(date, message);
@@ -164,6 +165,15 @@ function getNames(form) {
   names = [].concat(_toConsumableArray(nameSet));
 }
 
+function submitForm(form) {
+  // form.submit();
+  form.reset();
+  if (rules.modalPopup[0]) {
+    var modalClass = rules.modalPopup[1];
+    modalPopup('.' + modalClass);
+  }
+}
+
 function formValidate(form) {
   if (form.length === 0) {
     return form;
@@ -178,18 +188,15 @@ function formValidate(form) {
     e.preventDefault();
     checkAll(form);
     if (isValid) {
-      alert('Submit OK!');
-      // form.submit();
+      submitForm(form);
     }
   });
-  console.log(rules);
-  console.log(names);
   return form;
 }
 
 module.exports = formValidate;
 
-},{}],2:[function(require,module,exports){
+},{"./modalPopup":3}],2:[function(require,module,exports){
 'use strict';
 
 /*
@@ -197,6 +204,7 @@ module.exports = formValidate;
   Author: Andrew Mambyk
   Start Date: 14.05/18
  */
+
 var formValidate = require('./formValidate');
 
 var form = document.querySelector('form[name=formMain]');
@@ -230,9 +238,50 @@ var rules = {
     password: [6, 'Password must be at least 6 characters']
   },
   errorClass: 'alert',
-  successClass: 'success'
+  successClass: 'success',
+  modalPopup: [true, 'modal']
 };
 
 formValidate(form, rules);
 
-},{"./formValidate":1}]},{},[2]);
+},{"./formValidate":1}],3:[function(require,module,exports){
+'use strict';
+
+/*
+  Module Name: Modal Popup
+  Author: Andrew Mambyk
+  Start Date: 16.05/18
+ */
+
+var isVisible = 'isVisible';
+var button = '.modal__btn-close';
+var modal = void 0;
+var btnClose = void 0;
+
+function hide() {
+  modal.classList.remove(isVisible);
+  document.body.style.overflow = '';
+}
+
+function show() {
+  modal.classList.add(isVisible);
+  document.body.style.overflow = 'hidden';
+}
+
+function modalPopup(selector) {
+  modal = document.querySelector(selector);
+  btnClose = modal.querySelector(button);
+
+  show();
+
+  btnClose.addEventListener('click', hide);
+  modal.addEventListener('click', function (e) {
+    if (e.target === modal) {
+      hide();
+    }
+  });
+}
+
+module.exports = modalPopup;
+
+},{}]},{},[2]);

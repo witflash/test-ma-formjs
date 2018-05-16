@@ -11,12 +11,12 @@
       <p class="form__hint">Last Name:</p>
       <input type="text" class="form__input" name="lastName">
     </label>
-    
+
     <label class="form__label">
       <p class="form__hint">Birthday:</p>
       <input type="date" class="form__input" name="birthday">
     </label>
-    
+
     <div class="form__label">
       <p class="form__hint">Sex:</p>
       <div class="form__group">
@@ -30,7 +30,7 @@
         </label>
       </div>
     </div>
-    
+
     <label class="form__label">
       <p class="form__hint">Country:</p>
       <select name="country" class="form__select">
@@ -38,29 +38,30 @@
         {% include 'components/_countries.html' %}
       </select>
     </label>
-    
+
     <label class="form__label">
       <p class="form__hint">Email:</p>
       <input type="email" class="form__input" name="email">
     </label>
-    
+
     <label class="form__label">
       <p class="form__hint">Password:</p>
       <input type="password" class="form__input" name="password">
     </label>
-    
+
     <label class="form__label">
       <p class="form__hint">Address:</p>
       <input type="text" class="form__input" name="address">
     </label>
-    
+
     <label class="form__label">
       <p class="form__hint">Notes:</p>
       <textarea name="notes" rows="4" class="form__area"></textarea>
     </label>
 
     <button type="submit" class="button form__button">Submit</button>
-    
+
   </form>
-  
+
+  {% include 'components/_modal.html' %}
 </section>

@@ -9,3 +9,15 @@
     left: 0;
   }
 }
+
+@keyframes slide-top-to-bottom {
+  0% {
+    top: -200%;
+  }
+  75% {
+    top: 10%;
+  }
+  100% {
+    top: 0;
+  }
+}

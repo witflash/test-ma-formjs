@@ -1,4 +1,70 @@
 .modal {
-  position: absolute;
-  
+  position: fixed;
+  z-index: 9;
+  top: 0;
+  left: 0;
+  display: none;
+  width: 100%;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba($color: #000000, $alpha: 0.8);
+
+  &__box {
+    position: relative;
+    max-width: 90%;
+    min-height: 100px;
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: white;
+    border-radius: 10px;
+    animation: slide-top-to-bottom 1s;
+
+    @include phablet {
+      max-width: 400px;
+    }
+  }
+
+  &__content {
+    padding: 40px 20px 20px;
+    text-align: center;
+  }
+
+  &__title {
+    margin: 0;
+    margin-bottom: 40px;
+    font-family: $fface-secondary;
+    font-size: $fsize-subtitle;
+  }
+
+  &__text {
+    margin: 0;
+    margin-bottom: 0.5em;
+    font-size: $fsize-main;
+  }
+
+  &__btn-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    padding: 5px;
+    border: none;
+    background: none;
+    cursor: pointer;
+
+    .btn-fill {
+      fill: $color-primary;
+      transition-duration: $delay-global;
+    }
+
+    &:hover .btn-fill {
+      fill: $color-accent;
+    }
+  }
+
+  &.isVisible {
+    display: flex;
+  }
 }

@@ -3,6 +3,9 @@
   Author: Andrew Mambyk
   Start Date: 14.05/18
  */
+
+const modalPopup = require('./modalPopup');
+
 const rules = {
   required: {},
   messages: {},
@@ -15,6 +18,7 @@ const rules = {
   errorClass: 'has-error',
   successClass: 'has-success',
   messageClass: 'validate-error',
+  modalPopup: [],
 };
 
 const divErr = document.createElement('div');
@@ -82,12 +86,10 @@ function checkInput(input) {
 }
 
 function checkRadio(radio) {
-  console.log('radio: ', radio);
   if (!rules.required[radio[0].name]) {
     return;
   }
   const formGroup = radio[0].closest(`.${rules.formGroupClass}`);
-  console.log('formGroup: ', formGroup);
   for (let i = 0; i < radio.length; i += 1) {
     if (radio[i].checked) {
       removeError(formGroup);
@@ -99,7 +101,6 @@ function checkRadio(radio) {
 
 function checkDate(date) {
   const userDate = Date.parse(date.value);
-  console.log('userDate: ', userDate);
   if (rules.required[date.name] && !date.value) {
     const message = rules.messages[date.name];
     addError(date, message);
@@ -153,6 +154,15 @@ function getNames(form) {
   names = [...nameSet];
 }
 
+function submitForm(form) {
+  // form.submit();
+  form.reset();
+  if (rules.modalPopup[0]) {
+    const modalClass = rules.modalPopup[1];
+    modalPopup(`.${modalClass}`);
+  }
+}
+
 function formValidate(form, ...args) {
   if (form.length === 0) {
     return form;
@@ -167,12 +177,9 @@ function formValidate(form, ...args) {
     e.preventDefault();
     checkAll(form);
     if (isValid) {
-      alert('Submit OK!');
-      // form.submit();
+      submitForm(form);
     }
   });
-  console.log(rules);
-  console.log(names);
   return form;
 }
 

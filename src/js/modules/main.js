@@ -3,6 +3,7 @@
   Author: Andrew Mambyk
   Start Date: 14.05/18
  */
+
 const formValidate = require('./formValidate');
 
 const form = document.querySelector('form[name=formMain]');
@@ -40,6 +41,7 @@ const rules = {
   },
   errorClass: 'alert',
   successClass: 'success',
+  modalPopup: [true, 'modal'],
 };
 
 formValidate(form, rules);
